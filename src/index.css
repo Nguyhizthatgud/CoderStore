@@ -2,13 +2,13 @@
 
 @import "./App.css";
 @import "./styles/components/Navbar.css";
-
+@import "./styles/pages/Homepage.css";
 .ant-layout {
   min-height: 100vh;
   background-color: var(--background-color);
 }
 .ant-layout-header {
-  background-color: var(--tertiary-color);
+  background-color: transparent;
   color: var(--text-color);
   width: 100%;
 }

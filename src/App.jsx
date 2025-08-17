@@ -1,45 +1,45 @@
 /* filepath: c:\Users\tvc45\CoderStore\CoderStore\src\App.jsx */
-import "./App.css";
 import React from "react";
-import Navbar from "./components/Navbar";
-import { Layout, Breadcrumb, Menu, Checkbox, Radio, Slider, Col, Row, Flex } from "antd";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Mainlayout from "./pages/Mainlayout";
 import Contentpage from "./pages/Contentpage";
-
-const items = [{ title: "Home" }, { title: "List" }, { title: "App" }];
-const { Header, Content, Footer } = Layout;
-
+import Homepage from "./pages/Homepage";
+import { AuthProvider } from "./context/Auth";
+import AuthRequeired from "./routes/Authrequired.jsx";
+import { Navigate } from "react-router-dom";
+import Errorpage from "./pages/Errorpage.jsx";
+import Detailpage from "./pages/Detailpage.jsx";
 function App() {
   return (
-    <Layout>
-      {/* Header */}
-      <Header className="flex items-center">
-        <Navbar />
-      </Header>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* public route */}
+          <Route path="/" element={<Mainlayout children={<Homepage />} />} />
 
-      {/* Breadcrumb */}
-      <div className="bg-[var(--secondary-background-color)]">
-        <Breadcrumb className="flex items-center mx-auto" style={{ padding: "12px 50px" }} items={items} />
-      </div>
-
-      {/* Main Content */}
-      <Content
-        className="flex mx-auto w-full justify-center items-center py-6"
-        style={{
-          background: "var(--background-color)"
-        }}
-      >
-        <Contentpage />
-      </Content>
-      {/* Footer */}
-      <Footer
-        style={{
-          textAlign: "center",
-          background: "var(--tertiary-color)"
-        }}
-      >
-        <div className="container mx-auto px-4">CoderStore ©2024 Created by Your Team</div>
-      </Footer>
-    </Layout>
+          {/* private route */}
+          <Route
+            path="/user"
+            element={
+              <AuthRequeired>
+                <Mainlayout children={<Contentpage />} />
+              </AuthRequeired>
+            }
+          />
+          <Route
+            path="/product/:id"
+            element={
+              <AuthRequeired>
+                <Mainlayout children={<Detailpage />} />
+              </AuthRequeired>
+            }
+          />
+          {/* redirect and not found routes */}
+          <Route path="*" element={<Errorpage />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
