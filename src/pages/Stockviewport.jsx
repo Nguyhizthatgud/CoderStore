@@ -134,9 +134,7 @@ const Stockviewport = ({ filterProps }) => {
     return filteredProducts;
   };
   const filterProducts = useMemo(() => applyFilter(products, allFilters), [products, allFilters]);
-  useEffect(() => {
-    console.log("Form values changed:", allFilters);
-  }, [allFilters]);
+
   useEffect(() => {
     reset(defaultValues);
   }, [reset, defaultValues]);
